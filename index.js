@@ -19,6 +19,19 @@ alexa.response = function(session) {
       "shouldEndSession": true
     }
   };
+  this.elicitSlot = function(str, slotName) {
+    this.response.response.outputSpeech = {
+      "type": "SSML",
+      "ssml": SSML.fromStr(str)
+    };
+    var slotDirective = {
+      "type": "Dialog.ElicitSlot",
+      "slotToElicit": slotName,
+    };
+    this.response.response.directives.push(slotDirective);
+
+    return this;
+  };
   this.say = function(str) {
     if (typeof this.response.response.outputSpeech == "undefined") {
       this.response.response.outputSpeech = {
